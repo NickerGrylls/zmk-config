@@ -1,0 +1,16 @@
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+        default_layer {
+            bindings = <
+                /* ROW 0 */       &kp A  &kp B  &kp C  &kp D
+                /* ROW 1 */       &kp E  &kp F  &kp G  &kp H
+                /* ROW 2 */       &kp I  &kp J  &kp K  &kp L
+                /* ROW 3 */ &kp M  &kp N  &kp O  &kp P  &kp Q
+                /* ROW 4 */ &kp R  &kp S  &kp T  &kp U  &kp V
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+    };
+};
