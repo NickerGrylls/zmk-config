@@ -5,50 +5,51 @@
         zmk,kscan = &kscan0;
     };
 
+    // 矩阵引脚 [已根据 image_4221fd.png 再次复核]
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row"; 
         row-gpios
-            = <&gpio0 17 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            = <&gpio0 17 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // ROW0: P0.17
+            , <&gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // ROW1: P0.20
+            , <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // ROW2: P0.22
+            , <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // ROW3: P0.24
+            , <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // ROW4: P1.00
             ;
         col-gpios
-            = <&gpio0 31 GPIO_ACTIVE_HIGH>
-            , <&gpio0 29 GPIO_ACTIVE_HIGH>
-            , <&gpio0 2  GPIO_ACTIVE_HIGH>
-            , <&gpio1 15 GPIO_ACTIVE_HIGH>
-            , <&gpio0 13 GPIO_ACTIVE_HIGH>
+            = <&gpio0 31 GPIO_ACTIVE_HIGH> // COL0: P0.31
+            , <&gpio0 29 GPIO_ACTIVE_HIGH> // COL1: P0.29
+            , <&gpio0 2  GPIO_ACTIVE_HIGH> // COL2: P0.02
+            , <&gpio1 15 GPIO_ACTIVE_HIGH> // COL3: P1.15
+            , <&gpio0 13 GPIO_ACTIVE_HIGH> // COL4: P0.13
             ;
     };
-    
-    // 定义正旋钮 (SW1)
+
+    // 旋钮定义 [已根据你的手动修正更新]
     sw1: encoder_top {
         compatible = "alps,ec11";
-        a-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&gpio1 04 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        steps = <80>; // 标准 EC11 通常设为 80
-    };
-
-    // 定义侧旋钮 (SW2)
-    sw2: encoder_side {
-        compatible = "alps,ec11";
-        a-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        a-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // P0.10
+        b-gpios = <&gpio1 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // P1.04
         steps = <80>;
     };
 
-    // 将物理旋钮关联到 ZMK 传感器框架
+    sw2: encoder_side {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // P0.11
+        b-gpios = <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // P1.11
+        steps = <80>;
+    };
+
     sensors: sensors {
         compatible = "zmk,keymap-sensors";
         sensors = <&sw1 &sw2>;
-        triggers-per-rotation = <20>; // 每一圈有 20 个定位点（Detents）
-    // 定义 LED1 灯
-    leds {
+        triggers-per-rotation = <20>;
+    };
+
+    // 修正后的 LED 定义，使用唯一的节点名称避免冲突
+    echo_leds {
         compatible = "gpio-leds";
-        blue_led: led_0 {
+        status_led: led_status {
             gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>; // P1.06
             label = "Status LED";
         };
