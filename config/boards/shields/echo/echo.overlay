@@ -46,12 +46,16 @@
         triggers-per-rotation = <20>;
     };
 
-    // 修正后的 LED 定义，使用唯一的节点名称避免冲突
-    echo_leds {
+    // 定义 LED 硬件
+    leds {
         compatible = "gpio-leds";
-        status_led: led_status {
-            gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>; // P1.06
+        status_led: led_0 {
+            gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>; // 对应 P1.06
             label = "Status LED";
         };
     };
+
+    // 将 LED 绑定为输出状态指示（可选）
+    /* ZMK 目前对单颗 LED 的自动闪烁支持较复杂，
+       我们先用一种最直观的方法：层状态指示。 */
 };
