@@ -22,7 +22,6 @@
             ;
     };
     
-/ {
     // 定义正旋钮 (SW1)
     sw1: encoder_top {
         compatible = "alps,ec11";
