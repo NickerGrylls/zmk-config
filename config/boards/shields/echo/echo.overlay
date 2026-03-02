@@ -45,12 +45,11 @@
         triggers-per-rotation = <20>;
     };
 
-    // 关键：LED 硬件定义
-    echo_leds {
-        compatible = "gpio-leds";
-        status_led: led_0 {
-            gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>; // P1.06
-            label = "Status LED";
-        };
+
+    // 使用 backlight 驱动强制点亮 P1.06
+    backlight: backlight {
+        compatible = "gpio-backlight";
+        gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>; // P1.06
+        default-on; // 只要固件运行，灯就亮
     };
 };
