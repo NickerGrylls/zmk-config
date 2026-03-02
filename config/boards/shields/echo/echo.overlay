@@ -5,24 +5,44 @@
 
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-matrix";
-        diode-direction = "col2row"; // 根据你原理图中二极管指向 Row 确定
+        diode-direction = "col2row"; 
         row-gpios
-            = <&pro_micro 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // ROW0
-            , <&pro_micro 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // ROW1
-            // ...以此类推
+            = <&gpio0 17 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             ;
         col-gpios
-            = <&pro_micro 6 GPIO_ACTIVE_HIGH> // COL0
-            , <&pro_micro 7 GPIO_ACTIVE_HIGH> // COL1
-            // ...以此类推
+            = <&gpio0 31 GPIO_ACTIVE_HIGH>
+            , <&gpio0 29 GPIO_ACTIVE_HIGH>
+            , <&gpio0 2  GPIO_ACTIVE_HIGH>
+            , <&gpio1 15 GPIO_ACTIVE_HIGH>
+            , <&gpio0 13 GPIO_ACTIVE_HIGH>
             ;
     };
     
-    // 旋钮配置
-    left_encoder: encoder_left {
+/ {
+    // 定义正旋钮 (SW1)
+    sw1: encoder_top {
         compatible = "alps,ec11";
-        a-gpios = <&pro_micro 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&pro_micro 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        a-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 04 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        steps = <80>; // 标准 EC11 通常设为 80
+    };
+
+    // 定义侧旋钮 (SW2)
+    sw2: encoder_side {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         steps = <80>;
+    };
+
+    // 将物理旋钮关联到 ZMK 传感器框架
+    sensors: sensors {
+        compatible = "zmk,keymap-sensors";
+        sensors = <&sw1 &sw2>;
+        triggers-per-rotation = <20>; // 每一圈有 20 个定位点（Detents）
     };
 };
