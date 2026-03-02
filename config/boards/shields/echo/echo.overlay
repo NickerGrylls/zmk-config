@@ -1,3 +1,5 @@
+#include <dt-bindings/zmk/matrix_transform.h>
+
 / {
     chosen {
         zmk,kscan = &kscan0;
@@ -43,5 +45,12 @@
         compatible = "zmk,keymap-sensors";
         sensors = <&sw1 &sw2>;
         triggers-per-rotation = <20>; // 每一圈有 20 个定位点（Detents）
+    // 定义 LED1 灯
+    leds {
+        compatible = "gpio-leds";
+        blue_led: led_0 {
+            gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>; // P1.06
+            label = "Status LED";
+        };
     };
 };
