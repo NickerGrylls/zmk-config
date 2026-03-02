@@ -10,7 +10,9 @@
                 /* ROW 4 */ &kp R  &kp S  &kp T  &kp U  &kp V
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+                &inc_dec_kp C_VOL_UP C_VOL_DN  // 正旋钮：调音量
+                &inc_dec_kp PG_UP PG_DN        // 侧旋钮：页面滚动
+            >;
         };
     };
 };
