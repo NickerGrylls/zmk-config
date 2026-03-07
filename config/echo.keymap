@@ -1,36 +1,11 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/bt.h>
 
 / {
     keymap {
         compatible = "zmk,keymap";
-
         default_layer {
-            bindings = <
-                /* ROW 0: COL0为空 */ &none  &kp A  &kp B  &kp C  &kp D
-                /* ROW 1: COL0为空 */ &none  &kp E  &kp F  &kp G  &kp H
-                /* ROW 2: COL0为空 */ &none  &kp I  &kp J  &kp K  &kp L
-                /* ROW 3: SW1点击  */ &mo 1  &kp N  &kp O  &kp P  &kp Q
-                /* ROW 4: SW2点击  */ &kp R  &kp S  &kp T  &kp U  &kp V
-            >;
-
-            sensor-bindings = <
-                &inc_dec_kp C_VOL_UP C_VOL_DN  /* SW1旋转 */
-                &inc_dec_kp PG_UP PG_DN        /* SW2旋转 */
-            >;
-        };
-
-        // 调试层：按住正旋钮 (SW1) 触发
-        debug_layer {
-            bindings = <
-                /* 此层开启时，按住旋钮的同时按下 A/B/C 来管理蓝牙 */
-                &none  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_CLR  &none
-                &none  &none         &none         &none       &none
-                &none  &none         &none         &none       &none
-                &trans &none         &none         &none       &none
-                &none  &none         &none         &kp Y       &none
-            >;
+            bindings = <&none>; // 什么都不干
         };
     };
 };
