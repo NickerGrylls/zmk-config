@@ -1,55 +1,19 @@
-#include <dt-bindings/zmk/matrix_transform.h>
-
 / {
+    // 强制点亮 P1.06 的背光驱动
+    backlight: backlight {
+        compatible = "gpio-backlight";
+        gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>; // D9_P1.06
+        default-on; 
+    };
+
+    // 虚拟一个矩阵防止报错，但不分配真实引脚
     chosen {
         zmk,kscan = &kscan0;
     };
-
     kscan0: kscan {
-        compatible = "zmk,kscan-gpio-matrix";
-        diode-direction = "col2row"; 
-        row-gpios
-            = <&gpio0 17 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // ROW0
-            , <&gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // ROW1
-            , <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // ROW2
-            , <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // ROW3
-            , <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // ROW4
-            ;
-        col-gpios
-            = <&gpio0 31 GPIO_ACTIVE_HIGH> // COL0
-            , <&gpio0 29 GPIO_ACTIVE_HIGH> // COL1
-            , <&gpio0 2  GPIO_ACTIVE_HIGH> // COL2
-            , <&gpio1 15 GPIO_ACTIVE_HIGH> // COL3
-            , <&gpio0 8  GPIO_ACTIVE_HIGH> // COL4 (修正后的引脚)
-            ;
-    };
-
-    // 旋钮定义
-    sw1: encoder_top {
-        compatible = "alps,ec11";
-        a-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&gpio1 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        steps = <80>;
-    };
-
-    sw2: encoder_side {
-        compatible = "alps,ec11";
-        a-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        steps = <80>;
-    };
-
-    sensors: sensors {
-        compatible = "zmk,keymap-sensors";
-        sensors = <&sw1 &sw2>;
-        triggers-per-rotation = <20>;
-    };
-
-
-    // 使用 backlight 驱动强制点亮 P1.06
-    backlight: backlight {
-        compatible = "gpio-backlight";
-        gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>; // P1.06
-        default-on; // 只要固件运行，灯就亮
+        compatible = "zmk,kscan-mock";
+        columns = <0>;
+        rows = <0>;
+        events = <0>;
     };
 };
