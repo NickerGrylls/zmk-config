@@ -1,19 +1,28 @@
 / {
-    // 强制点亮 P1.06 的背光驱动
-    backlight: backlight {
-        compatible = "gpio-backlight";
-        gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>; // D9_P1.06
-        default-on; 
-    };
-
-    // 虚拟一个矩阵防止报错，但不分配真实引脚
     chosen {
         zmk,kscan = &kscan0;
     };
+
+    // 强制让 P1.06 所在的 GPIO 组上电
+    ext-power {
+        compatible = "zmk,ext-power-generic";
+        control-gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>; // 假设 P0.13 是电源使能脚
+    };
+
     kscan0: kscan {
-        compatible = "zmk,kscan-mock";
-        columns = <0>;
-        rows = <0>;
-        events = <0>;
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "col2row";
+        // 这里暂时只写两个引脚测试，减少干扰
+        row-gpios = <&gpio0 17 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+        col-gpios = <&gpio0 31 GPIO_ACTIVE_HIGH>;
+    };
+
+    // 强制输出高电平
+    leds {
+        compatible = "gpio-leds";
+        test_led: led_0 {
+            gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>; // P1.06
+            label = "Always ON LED";
+        };
     };
 };
