@@ -8,8 +8,8 @@
 
     // 虚拟一个矩阵防止报错，但不分配真实引脚
     chosen {
-        zmk,underglow = &status_led;
         zmk,kscan = &kscan0;
+        zmk,underglow = &status_led;
     };
     kscan0: kscan {
         compatible = "zmk,kscan-mock";
