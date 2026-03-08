@@ -2,7 +2,7 @@
     // 强制点亮 P1.06 的背光驱动
     backlight: backlight {
         compatible = "gpio-backlight";
-        gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>; // D9_P1.06
+        gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>; // D9_P1.06
         default-on; 
     };
 
